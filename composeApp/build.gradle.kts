@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.composeHotReload)
 }
 
 kotlin {
@@ -17,17 +18,18 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     jvm("desktop")
-    
+
     sourceSets {
         val desktopMain by getting
-        
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
+            implementation(project(":overportcli"))
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
@@ -38,10 +40,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
             implementation(compose.materialIconsExtended)
-            implementation(libs.android.tools.build)
-            implementation(libs.bouncycastle.pkix)
             implementation(libs.kotlinx.serialization.json)
-            implementation(fileTree("libs"))
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -51,11 +50,11 @@ kotlin {
 }
 
 android {
-    namespace = "moe.crx.ovrport"
+    namespace = "moe.crx.overport.app"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "moe.crx.ovrport"
+        applicationId = "moe.crx.overport.app"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = appVersion.split('.').run { get(0).toInt() * 1000000 + get(1).toInt() * 1000 + get(2).toInt() }
@@ -89,18 +88,19 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "moe.crx.ovrport.MainKt"
+        mainClass = "moe.crx.overport.app.ComposeMainKt"
 
         buildTypes {
             release {
                 proguard {
                     configurationFiles.from("proguard-rules.pro")
+                    isEnabled = false
                 }
             }
         }
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Exe, TargetFormat.AppImage)
+            targetFormats(TargetFormat.Dmg, TargetFormat.Exe, TargetFormat.Deb, TargetFormat.Rpm)
             packageName = "overport"
             packageVersion = appVersion
 
@@ -120,21 +120,3 @@ compose.desktop {
         }
     }
 }
-
-tasks.withType<org.gradle.jvm.tasks.Jar> {
-    // Need for valid signature check
-    exclude(
-        "META-INF/*.SF",
-        "META-INF/*.DSA",
-        "META-INF/*.RSA",
-        "META-INF/*.EC"
-    )
-
-    exclude(
-        "META-INF/INDEX.LIST",
-        "META-INF/DEPENDENCIES",
-        "META-INF/LICENSE*",
-        "META-INF/NOTICE*"
-    )
-}
-

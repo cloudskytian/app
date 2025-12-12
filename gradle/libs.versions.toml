@@ -1,17 +1,18 @@
 [versions]
-agp = "8.5.2"
-android-compileSdk = "34"
-android-minSdk = "24"
-android-targetSdk = "34"
-androidx-activityCompose = "1.9.3" # Do not update it
-androidx-lifecycle = "2.8.4"
-compose-multiplatform = "1.7.0"
-kotlin = "2.1.0"
-kotlinx-coroutines = "1.10.1"
-apksig = "8.10.0-alpha07"
-bcpkix = "1.80"
-kotlinxSerializationJson = "1.8.0"
-lifecycleViewmodelCompose = "2.8.2"
+agp = "8.12.3"
+android-compileSdk = "36"
+android-minSdk = "29"
+android-targetSdk = "36"
+androidx-activityCompose = "1.12.1"
+androidx-lifecycle = "2.9.6"
+compose-multiplatform = "1.9.3"
+kotlin = "2.2.21"
+kotlinx-coroutines = "1.10.2"
+apksig = "8.12.3"
+bcpkix = "1.83"
+kotlinx-serialization = "1.9.0"
+lifecycle-viewmodel-compose = "2.9.6"
+compose-hot-reload = "1.0.0"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activityCompose" }
@@ -19,11 +20,12 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
-androidx-lifecycle-viewmodel-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
+androidx-lifecycle-viewmodel-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle-viewmodel-compose" }
 
 android-tools-build = { group = "com.android.tools.build", name = "apksig", version.ref = "apksig" }
 bouncycastle-pkix = { group = "org.bouncycastle", name = "bcpkix-jdk18on", version.ref = "bcpkix" }
-kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name ="kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name ="kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name ="kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -32,3 +34,4 @@ composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-mu
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "compose-hot-reload" }

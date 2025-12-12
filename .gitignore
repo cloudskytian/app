@@ -20,3 +20,5 @@ captures
 *.apk
 composeApp/release/output-metadata.json
 *.salive
+workspace
+ignore
