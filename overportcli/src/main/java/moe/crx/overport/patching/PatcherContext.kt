@@ -6,6 +6,7 @@ import com.reandroid.archive.ArchiveFile
 import com.reandroid.archive.FileInputSource
 import com.reandroid.archive.io.ZipFileInput
 import moe.crx.overport.config.OverportPatchedInfo
+import moe.crx.overport.utils.CantCheckoutException
 import moe.crx.overport.utils.NameFormatter
 import moe.crx.overport.versions.VersionManager
 import org.jf.baksmali.Baksmali
@@ -51,14 +52,8 @@ class PatcherContext(
     }
 
     fun checkout() {
-        var successful = VersionManager(patcherDirectory).checkout(overportVersion)
-
-        if (successful == null) {
-            successful = VersionManager(patcherDirectory).checkout("latest")
-        }
-
-        checkNotNull(successful)
-        overportVersion = successful
+        overportVersion = VersionManager(patcherDirectory).checkout(overportVersion)
+            ?: throw CantCheckoutException("Can't checkout an overport release. Please, check your internet connection or choose another version.")
     }
 
     fun prepare(stream: InputStream) {
