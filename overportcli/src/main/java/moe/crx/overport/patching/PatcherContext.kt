@@ -177,7 +177,7 @@ class PatcherContext(
 
         ApkSigner
             .Builder(listOf(signature))
-            .setAlignFileSize(true)
+            .setAlignFileSize(false) // Disabled because MBF doesn't support aligning
             .setMinSdkVersion(29)
             .setInputApk(tempFile)
             .setOutputApk(outputApk)
