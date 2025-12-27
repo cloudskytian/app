@@ -91,6 +91,15 @@ fun createProperty(key: String, value: String): JSONObject {
 val PATCH_VR_METADATA = Patch("patch_vr_metadata") {
     selectManifestJson {
         takeNodesEach({ named("manifest") }) {
+            takeNodes {
+                this?.put(createUsesFeature("android.software.xr.api.openxr", true))
+                this?.put(createUsesFeature("android.software.xr.api.spatial", true))
+                this?.put(createUsesLibrary("libopenxr.google.so", false))
+                this?.put(createUsesFeature("android.software.xr.input.controller", false))
+                    ?.put(createUsesPermission("org.khronos.openxr.permission.OPENXR"))
+                    ?.put(createUsesPermission("org.khronos.openxr.permission.OPENXR_SYSTEM"))
+                    ?.put(createUsesPermission("com.huawei.android.permission.VR"))
+            }
             takeNodesEach({ named("application") }) {
                 takeNodesEach({ named("activity") }) {
                     takeNodes {
@@ -106,15 +115,6 @@ val PATCH_VR_METADATA = Patch("patch_vr_metadata") {
                             )
                         )
                     }
-                }
-                takeNodes {
-                    this?.put(createUsesFeature("android.software.xr.api.openxr", true))
-                    this?.put(createUsesFeature("android.software.xr.api.spatial", true))
-                    this?.put(createUsesLibrary("libopenxr.google.so", false))
-                    this?.put(createUsesFeature("android.software.xr.input.controller", false))
-                        ?.put(createUsesPermission("org.khronos.openxr.permission.OPENXR"))
-                        ?.put(createUsesPermission("org.khronos.openxr.permission.OPENXR_SYSTEM"))
-                        ?.put(createUsesPermission("com.huawei.android.permission.VR"))
                 }
                 takeNodesEach({ named("meta-data") }) {
                     if (nameAttribute() == "com.oculus.supportedDevices") null else this
